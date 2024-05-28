@@ -1,10 +1,10 @@
 import Foundation
 
-class ElfParser {
+public class ElfParser {
     private var data: Data
 
     // Elfファイルパスから初期化
-    init?(filePath: String) {
+    public init?(filePath: String) {
         guard let fileData = try? Data(contentsOf: URL(fileURLWithPath: filePath)) else {
             return nil
         }
@@ -12,17 +12,17 @@ class ElfParser {
     }
 
     // Elfファイルデータから初期化
-    init(data: [UInt8]) {
+    public init(data: [UInt8]) {
         self.data = Data(data)
     }
 
     // Elfヘッダをパース
-    func parseElfHeader() -> ElfHeader32? {
+    public func parseElfHeader() -> ElfHeader32? {
         return ElfHeader32(data: data)
     }
 
     // プログラムヘッダをパース
-    func parseProgramHeaders(elfHeader: ElfHeader32) -> [ProgramHeader]? {
+    public func parseProgramHeaders(elfHeader: ElfHeader32) -> [ProgramHeader]? {
         var headers = [ProgramHeader]()
         let headerSize = Int(elfHeader.e_phentsize)
         let headerCount = Int(elfHeader.e_phnum)
@@ -40,7 +40,7 @@ class ElfParser {
     }
 
     // バイナリデータを抽出
-    func extractBinaryData(with programHeaders: [ProgramHeader]) -> [UInt32: [UInt8]] {
+    public func extractBinaryData(with programHeaders: [ProgramHeader]) -> [UInt32: [UInt8]] {
         var binaryData = [UInt32: [UInt8]]()
 
         for header in programHeaders {
